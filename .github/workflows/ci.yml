@@ -1,0 +1,22 @@
+name: Day17 Docker Compose CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Build Docker Image
+        run: docker build -t day17-compose-image .
+
+      - name: Test Container
+        run: |
+          docker run -d -p 5000:5000 day17-compose-image
+          sleep 5
+          curl http://localhost:5000
